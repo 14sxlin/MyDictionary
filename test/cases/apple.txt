@@ -1,0 +1,37 @@
+<div class="base-top-voice">
+
+<div class="base-speak">
+<span>
+    <span>英 [ˈæpl]</span>
+    <i class="new-speak-step" ms-on-mouseover="sound('http://res.iciba.com/resource/amp3/oxford/0/44/29/44297283b5e4b5b0a991213897f0b14a.mp3')"></i>
+</span>
+<span>
+    <span>美 [ˈæpəl]</span>
+    <i class="new-speak-step" ms-on-mouseover="sound('http://res.iciba.com/resource/amp3/1/0/1f/38/1f3870be274f6c49b3e31a0c6728957f.mp3')"></i>
+</span>
+</div>
+
+
+    
+    <ul class="base-list switch_part" class="">
+        <li class="clearfix">
+            <span class="prop">n.</span>
+                <p>
+                    <span>苹果；</span>
+                    <span>苹果树；</span>
+                    <span>苹果公司；</span>
+                </p>
+        </li>
+    </ul>
+                            
+            
+    <li class="change clearfix">
+        <h1 class="base-word abbr chinese change-base">变形</h1>
+            <p>
+                <span>复数：
+                    <a class="shape" href="/apples">apples</a>
+                </span>
+            </p>
+        </h1>
+    </li>
+                                                                                                                                            </p>
