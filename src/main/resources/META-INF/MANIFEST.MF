@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Class-Path: scala-library-2.12.3.jar scala-reflect-2.12.3.jar scala-li
+ brary-2.12.3-sources.jar scala-reflect-2.12.3-sources.jar scala-libra
+ ry-2.12.3.jar lib.jsoup-1.10.2.jar h2-1.4.196.jar scalafx_2.12-8.0.102-R1
+ 1.jar scala-reflect-2.12.0.jar
+Main-Class: gui.DictionaryApp
+
