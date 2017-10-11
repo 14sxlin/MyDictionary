@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.WordMapper" >
+  <resultMap id="BaseResultMap" type="dao.Word" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="ENG" property="eng" jdbcType="VARCHAR" />
+    <result column="ENG_PRON" property="engPron" jdbcType="VARCHAR" />
+    <result column="USA_PRON" property="usaPron" jdbcType="VARCHAR" />
+    <result column="ENG_MEDIA" property="engMedia" jdbcType="VARCHAR" />
+    <result column="USA_MEDIA" property="usaMedia" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ENG, ENG_PRON, USA_PRON, ENG_MEDIA, USA_MEDIA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="dao.WordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WORD
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from WORD
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="dao.WordExample" >
+    delete from WORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="dao.Word" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into WORD (ENG, ENG_PRON, USA_PRON, 
+      ENG_MEDIA, USA_MEDIA)
+    values (#{eng,jdbcType=VARCHAR}, #{engPron,jdbcType=VARCHAR}, #{usaPron,jdbcType=VARCHAR}, 
+      #{engMedia,jdbcType=VARCHAR}, #{usaMedia,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="dao.Word" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into WORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eng != null" >
+        ENG,
+      </if>
+      <if test="engPron != null" >
+        ENG_PRON,
+      </if>
+      <if test="usaPron != null" >
+        USA_PRON,
+      </if>
+      <if test="engMedia != null" >
+        ENG_MEDIA,
+      </if>
+      <if test="usaMedia != null" >
+        USA_MEDIA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eng != null" >
+        #{eng,jdbcType=VARCHAR},
+      </if>
+      <if test="engPron != null" >
+        #{engPron,jdbcType=VARCHAR},
+      </if>
+      <if test="usaPron != null" >
+        #{usaPron,jdbcType=VARCHAR},
+      </if>
+      <if test="engMedia != null" >
+        #{engMedia,jdbcType=VARCHAR},
+      </if>
+      <if test="usaMedia != null" >
+        #{usaMedia,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="dao.WordExample" resultType="java.lang.Integer" >
+    select count(*) from WORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WORD
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.eng != null" >
+        ENG = #{record.eng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.engPron != null" >
+        ENG_PRON = #{record.engPron,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usaPron != null" >
+        USA_PRON = #{record.usaPron,jdbcType=VARCHAR},
+      </if>
+      <if test="record.engMedia != null" >
+        ENG_MEDIA = #{record.engMedia,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usaMedia != null" >
+        USA_MEDIA = #{record.usaMedia,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WORD
+    set ID = #{record.id,jdbcType=BIGINT},
+      ENG = #{record.eng,jdbcType=VARCHAR},
+      ENG_PRON = #{record.engPron,jdbcType=VARCHAR},
+      USA_PRON = #{record.usaPron,jdbcType=VARCHAR},
+      ENG_MEDIA = #{record.engMedia,jdbcType=VARCHAR},
+      USA_MEDIA = #{record.usaMedia,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="dao.Word" >
+    update WORD
+    <set >
+      <if test="eng != null" >
+        ENG = #{eng,jdbcType=VARCHAR},
+      </if>
+      <if test="engPron != null" >
+        ENG_PRON = #{engPron,jdbcType=VARCHAR},
+      </if>
+      <if test="usaPron != null" >
+        USA_PRON = #{usaPron,jdbcType=VARCHAR},
+      </if>
+      <if test="engMedia != null" >
+        ENG_MEDIA = #{engMedia,jdbcType=VARCHAR},
+      </if>
+      <if test="usaMedia != null" >
+        USA_MEDIA = #{usaMedia,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="dao.Word" >
+    update WORD
+    set ENG = #{eng,jdbcType=VARCHAR},
+      ENG_PRON = #{engPron,jdbcType=VARCHAR},
+      USA_PRON = #{usaPron,jdbcType=VARCHAR},
+      ENG_MEDIA = #{engMedia,jdbcType=VARCHAR},
+      USA_MEDIA = #{usaMedia,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
