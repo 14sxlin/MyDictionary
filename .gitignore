@@ -2,4 +2,6 @@ out
 target
 .idea/
 logs/
+test/cases/
 config.properties
+src/main/resources/cases

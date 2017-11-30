@@ -1,7 +1,7 @@
 package gui
 
 import config.DefaultConfiguration
-import gui.action.{QueryButtonClickAction, InputTextFieldAction}
+import gui.action.{PronAction, QueryButtonClickAction}
 
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -12,12 +12,10 @@ import scalafx.scene.control.{TextArea, _}
 import scalafx.scene.image.Image
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color
-
 /**
   * Created by linsixin on 2017/10/8.
   */
 object DictionaryApp extends JFXApp{
-
 
   val queryBtn = new Button("查询"){
     tooltip = new Tooltip("直接回车也可以")
@@ -34,6 +32,9 @@ object DictionaryApp extends JFXApp{
       new WebConfigMenu()
     )
   }
+
+  val engPropBtn = new Button("英音")
+  val usaPropBtn = new Button("美音")
 
 
   stage = new PrimaryStage {
@@ -57,7 +58,9 @@ object DictionaryApp extends JFXApp{
             children = Seq(
               new Label("输入要查询的词/句:"),
               input,
-              queryBtn
+              queryBtn,
+              engPropBtn,
+              usaPropBtn
             )
           }
           center = result
@@ -72,7 +75,7 @@ object DictionaryApp extends JFXApp{
   }
 
   queryBtn.onAction = QueryButtonClickAction(queryBtn,input,result).queryAction
-  input.onMouseClicked = InputTextFieldAction(input).onClickDo
-
+  engPropBtn.onAction = PronAction.engPron()
+  usaPropBtn.onAction = PronAction.usaPron()
 
 }
