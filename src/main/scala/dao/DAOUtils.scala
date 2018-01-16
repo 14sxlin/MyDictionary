@@ -1,6 +1,5 @@
 package dao
 
-import dao.TypeMeanDao.logger
 import mybatis.GetSqlSession
 import org.slf4j.LoggerFactory
 
@@ -13,9 +12,9 @@ object DAOUtils {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
-  def doInSessionAndCommit[MapperClass](f : (MapperClass) => Unit)(implicit manifest:Manifest[MapperClass]): Unit ={
+  def doInSessionAndCommit[MapperClass:ClassTag](f : (MapperClass) => Unit): Unit ={
     val session = GetSqlSession.getSqlSession
-    val mapper = session.getMapper(manifest.runtimeClass)
+    val mapper = session.getMapper(implicitly[ClassTag[MapperClass]].runtimeClass)
     try{
       f(mapper.asInstanceOf[MapperClass])
       session.commit()
@@ -24,9 +23,9 @@ object DAOUtils {
     }//finally session.close()
   }
 
-  def doInSession[MapperClass](f : (MapperClass) => Unit)(implicit manifest: Manifest[MapperClass]): Unit ={
+  def doInSession[MapperClass:ClassTag](f : (MapperClass) => Unit): Unit ={
     val session = GetSqlSession.getSqlSession
-    val mapper = session.getMapper(manifest.runtimeClass)
+    val mapper = session.getMapper(implicitly[ClassTag[MapperClass]].runtimeClass)
     try{
       f(mapper.asInstanceOf[MapperClass])
     }catch {

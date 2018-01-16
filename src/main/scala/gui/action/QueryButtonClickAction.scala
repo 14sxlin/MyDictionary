@@ -4,7 +4,7 @@ import javafx.scene.control.Button
 
 import config.DefaultConfiguration
 import control.Translator
-import dao.ResultWordDao
+import dao.ResultWordService
 import entity.{QueryContentFactory, Result, ResultWord}
 import gui.ConfigName._
 
@@ -27,7 +27,7 @@ case class QueryButtonClickAction(button: Button,
 
   val queryAction: () => Unit = () => {
     val text = input.text.value.trim
-    if( ! text.isEmpty){
+    if( text.nonEmpty ){
       doQueryAndShowResult(text)
     }
   }
@@ -76,7 +76,7 @@ case class QueryButtonClickAction(button: Button,
   private def saveResultToLocal(result: Result):Unit = {
     if(_saveToLocal){
       Future{
-        ResultWordDao.saveResult(result)
+        ResultWordService.saveResult(result)
       } onComplete {
         case Success(_) =>
           appendMessage("已保存到本地\n\n")

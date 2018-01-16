@@ -3,23 +3,20 @@ package config;
 import java.io.*;
 import java.util.Properties;
 
-/**
- * Created by linsixin on 2017/10/11.
- */
 public class ConfigUtils {
 
-    public static Configuration load(File file) {
+    public static Configuration load(File file) throws IOException {
         if (file == null || !file.exists() || file.isDirectory())
             throw new IllegalArgumentException("file not legal");
-        try {
-            return loadAndClose(new FileInputStream(file));
+        try(InputStream in = new FileInputStream(file)) {
+            return load(in);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static Configuration loadAndClose(InputStream in) {
+    public static Configuration load(InputStream in) {
         Properties properties = new Properties();
         try {
             properties.load(in);
@@ -39,7 +36,7 @@ public class ConfigUtils {
         return null;
     }
 
-    public static void saveAndClose(Configuration configuration, OutputStream out) {
+    public static void save(Configuration configuration, OutputStream out) {
         Properties properties = configuration.getProps();
         try {
             properties.store(out, "");
@@ -48,9 +45,9 @@ public class ConfigUtils {
         }
     }
 
-    public static void save(Configuration configuration, File file) {
-        try {
-            saveAndClose(configuration, new FileOutputStream(file));
+    public static void save(Configuration configuration, File file) throws IOException {
+        try(OutputStream out = new FileOutputStream(file)) {
+            save(configuration,out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

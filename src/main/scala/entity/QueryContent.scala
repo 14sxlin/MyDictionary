@@ -13,24 +13,20 @@ sealed abstract class QueryContent(val content:String,var result:String="")
 
 /**
   * 查询英语句子
-  * @param sentence
   */
 case class QueryEnglishSentence(sentence:String) extends QueryContent(sentence)
 
 /**
   * 查询英语单词
-  * @param word
   */
 case class QueryEnglishWord(word:String) extends QueryContent(word)
 
 /**
   * 查询中文单词
-  * @param word
   */
 case class QueryChineseWord(word:String) extends QueryContent(word)
 
 /**
   * 查询中文句子
-  * @param sentence
   */
 case class QueryChineseSentence(sentence: String) extends QueryContent(sentence)

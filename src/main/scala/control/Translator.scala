@@ -1,6 +1,6 @@
 package control
 
-import dao.ResultWordDao
+import dao.ResultWordService
 import entity.{QueryContent, QueryEnglishWord, Result, ResultFormatter}
 import utils.WebQueryUtils
 
@@ -32,7 +32,7 @@ object Translator {
   }
 
   def translateFromLocal(query:QueryEnglishWord) : Option[Result] = {
-    ResultWordDao.queryOneResult(query.word)
+    ResultWordService.queryOneResult(query.word)
   }
 
 }

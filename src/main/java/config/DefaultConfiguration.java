@@ -1,6 +1,7 @@
 package config;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by linsixin on 2017/10/11.
@@ -10,27 +11,33 @@ import java.io.File;
  */
 public class DefaultConfiguration {
 
-    private static Configuration configuration = null;
+    private static String lock = "ConfigLock";
+
+    private static volatile Configuration configuration = null;
 
     private static String defaultConfigFile = "config.properties";
 
-    public static synchronized Configuration getInstance() throws Exception {
+    public static Configuration getInstance() throws Exception {
         if (configuration == null) {
-            File file = new File(defaultConfigFile);
-            if (!file.exists())
-                configuration = ConfigUtils.loadAndClose(
-                        DefaultConfiguration.class.getClassLoader()
-                                .getResourceAsStream("config.properties")
-                );
-            else configuration = ConfigUtils.load(file);
-            if (configuration == null) {
-                throw new Exception("no default config");
+            synchronized (lock){
+                if(configuration == null){
+                    File file = new File(defaultConfigFile);
+                    if (!file.exists())
+                        configuration = ConfigUtils.load(
+                                DefaultConfiguration.class.getClassLoader()
+                                        .getResourceAsStream("config.properties")
+                        );
+                    else configuration = ConfigUtils.load(file);
+                    if (configuration == null) {
+                        throw new Exception("no default config");
+                    }
+                }else return configuration;
             }
         }
         return configuration;
     }
 
-    public static void save() {
+    public static void save() throws IOException {
         if(configuration == null)
             return;
         ConfigUtils.save(configuration,new File(defaultConfigFile));

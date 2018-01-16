@@ -16,15 +16,15 @@ class TestResultDao extends FunSuite{
   resultWord.type_mean = ArrayBuffer(("n","记录"))
 
   test("query word from table"){ //apple has insert into table
-    val word = ResultWordDao.queryOneResult("apple").orNull
+    val word = ResultWordService.queryOneResult("apple").orNull
     assert(word != null)
     println(word.query + " " + word.pron + " " + word.type_mean.mkString("\r\n"))
     assert(word.type_mean.nonEmpty)
   }
 
   test("save result"){
-    ResultWordDao.saveResult(resultWord)
-    val word = ResultWordDao.queryOneResult("record").orNull
+    ResultWordService.saveResult(resultWord)
+    val word = ResultWordService.queryOneResult("record").orNull
     assert(word != null)
     println(word.query + " " + word.pron + " " + word.type_mean.mkString("\r\n"))
     assert(word.type_mean.nonEmpty)

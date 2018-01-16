@@ -2,9 +2,6 @@ package config;
 
 import java.io.File;
 
-/**
- * Created by linsixin on 2017/10/11.
- */
 public class TestConfig {
 
     public static void main(String[] args) {

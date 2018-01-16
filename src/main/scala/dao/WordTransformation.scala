@@ -1,7 +1,6 @@
 package dao
 
 import entity.ResultWord
-import org.apache.ibatis.session.SqlSession
 import utils.WordUtils.{isEng, isWord, splitPron}
 
 import scala.collection.mutable.ArrayBuffer
