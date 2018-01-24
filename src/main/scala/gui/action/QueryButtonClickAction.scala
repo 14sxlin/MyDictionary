@@ -11,6 +11,7 @@ import gui.ConfigName._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+import scalafx.application.Platform
 import scalafx.scene.control.{TextArea, TextField}
 /**
   * Created by linsixin on 2017/10/9.
@@ -92,16 +93,26 @@ case class QueryButtonClickAction(button: Button,
     不知道为什么,无法scroll resultArea到底部,只能用显示在头部替代
    */
   private def showResultAndEnableButton(result:String):Unit = {
-    input.clear()
-    val sb = new StringBuilder()
-    sb.append(result).append("-"*50).append("\n##\n").append(resultArea.text.value)
-    resultArea.text = sb.toString()
+    runLater { () =>
+      input.clear()
+      val sb = new StringBuilder()
+      sb.append(result).append("-"*50).append("\n##\n").append(resultArea.text.value)
+      resultArea.text = sb.toString()
+    }
   }
 
-  private def appendMessage(msg:String): Unit ={
-    resultArea.text = resultArea.text.value.replaceFirst("##",msg + "\n##\n")
+  private def appendMessage(msg:String): Unit = {
+    runLater{ () =>
+      resultArea.text = resultArea.text.value.replaceFirst("##",msg + "\n##\n")
+    }
   }
 
+
+  private def runLater(run : ()=>Unit): Unit = {
+    Platform.runLater{
+      run()
+    }
+  }
 }
 
 object QueryButtonClickAction{

@@ -10,7 +10,7 @@ import utils.WebQueryUtils
   * Created by LinSixin on 2016/12/27.
   */
 @Deprecated
-class TestResultFormatter extends FunSuite{
+class TestResultParser extends FunSuite{
 
 //  test("engPron and soundPattern should work well"){
 //    val exp = new Array[String](2)
@@ -68,14 +68,14 @@ class TestResultFormatter extends FunSuite{
     test("format word"){
       val queryContent = QueryEnglishWord("apple")
       val source = WebQueryUtils.queryFromWebsite(queryContent)
-      val result = ResultFormatter.formatWord(source).asInstanceOf[ResultWord]
+      val result = ResultParser.tryParseWord(source).asInstanceOf[ResultWord]
       assert(("n.","苹果；苹果树；苹果公司；")==result.type_mean(0))
       assert(2 == result.sound.size)
       assert(result.pron == "英 [ˈæpl] 美 [ˈæpəl]")
 //      print(result.pron)
       val queryContent1= QueryEnglishWord("do")
       val source1 = WebQueryUtils.queryFromWebsite(queryContent1)
-      val result1 = ResultFormatter.formatWord(source1).asInstanceOf[ResultWord]
+      val result1 = ResultParser.tryParseWord(source1).asInstanceOf[ResultWord]
       assert(2 == result1.sound.size)
     }
 
@@ -95,7 +95,7 @@ class TestResultFormatter extends FunSuite{
   test("查询英文句子"){
     val ephrase = QueryContentFactory.create("in what case")
     val queryContent = WebQueryUtils.queryFromWebsite(ephrase)
-    val sentence = ResultFormatter.formatSentence(ephrase)
+    val sentence = ResultParser.tryParseSentence(ephrase)
     assert(sentence.meaning=="在什么情况下")
   }
 
@@ -106,14 +106,14 @@ class TestResultFormatter extends FunSuite{
   test("查询英语句子 类型1"){
     val eSentence = QueryContentFactory.create("I love you")
     val source = WebQueryUtils.queryFromWebsite(eSentence)
-    val sentence =  ResultFormatter.formatSentence1(eSentence)
+    val sentence =  ResultParser.tryParseSentence1(eSentence)
     assert(sentence.meaning.trim == "n. 我爱你；".trim)
   }
 
   test("查询英语短语"){
     val eSentence = QueryContentFactory.create("holy shit")
     val source = WebQueryUtils.queryFromWebsite(eSentence)
-    val sentence =  ResultFormatter.formatSentence1(eSentence)
+    val sentence =  ResultParser.tryParseSentence1(eSentence)
     assert(sentence.meaning.trim == "释义 天啊(=holy cats)；".trim)
   }
 
@@ -124,7 +124,7 @@ class TestResultFormatter extends FunSuite{
   test("查询中文句子"){
     val eSentence = QueryContentFactory.create("我爱你")
     val source = WebQueryUtils.queryFromWebsite(eSentence)
-    val sentence =  ResultFormatter.formatSentence(source)
+    val sentence =  ResultParser.tryParseSentence(source)
     assert(sentence.meaning.trim == ("名 I love you； " +
       "Je t’aime； " +
       "Ich liebe Dich； " +

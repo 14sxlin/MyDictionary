@@ -1,7 +1,7 @@
 package control
 
 import dao.ResultWordService
-import entity.{QueryContent, QueryEnglishWord, Result, ResultFormatter}
+import entity.{QueryContent, QueryEnglishWord, Result, ResultParser}
 import utils.WebQueryUtils
 
 /**
@@ -28,7 +28,7 @@ object Translator {
 
   def translateFromWeb(content:QueryContent):Result ={
     val queryContent = WebQueryUtils.queryFromWebsite(content)
-    ResultFormatter.format(queryContent)
+    ResultParser.parse(queryContent)
   }
 
   def translateFromLocal(query:QueryEnglishWord) : Option[Result] = {
