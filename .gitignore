@@ -5,3 +5,5 @@ logs/
 test/cases/
 config.properties
 src/main/resources/cases
+*.iml
+*.mv.db
